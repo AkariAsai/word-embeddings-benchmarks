@@ -78,19 +78,30 @@ You can also install it in development mode with::
 
 For Wikipedia2Vec evaluation
 ========
-* First, you need to have a glove-format wikipedia2vec model file to be evaluated. 
+First, you need to have a glove-format wikipedia2vec model file to be evaluated. 
 You convert the model file using Wikipedia2vec's save_text method or word-embeddings-benchmarks/scripts/convert_wiki2vec_glove.py.
 
-You can convert your model file with convert_wiki2vec_glove.py::
+Convert your wikipedia2vec model file with convert_wiki2vec_glove.py::
 
     python scripts/convert_wiki2vec_glove.py [path to model file] [output file name]
+   
+Then evaluate your model by running scripts/evaluate_on_all.py::
+    
+    python scripts/evaluate_on_all.py --format glove --file [path to model file]
+    
+The model fils is assumed to be saved below $HOME/web_data. For example, if you have the model named wiki2vec_en_glove.txt,
+the file should be in the directory $HOME/web_data/wiki2vec_en_glove.txt. 
 
-* The comparison between glove 100d and wikipedia2vec 100d: https://docs.google.com/spreadsheets/d/1-JQGkN8v5_xwqXeGpXu0CkdDlrSESENkV_oN7Xm_90Q/edit?usp=sharing
+
+When you would like to run the named entity benchmark (Kore)::
+
+    python scripts/evaluate_on_all.py --format glove --file [path to model file] --entity True
 
 
 Examples
 ========
 See `examples` folder.
+The comparison between glove 100d and wikipedia2vec 100d: https://docs.google.com/spreadsheets/d/1-JQGkN8v5_xwqXeGpXu0CkdDlrSESENkV_oN7Xm_90Q/edit?usp=sharing
 
 License
 =======

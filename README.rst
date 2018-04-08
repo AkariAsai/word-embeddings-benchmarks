@@ -54,32 +54,15 @@ Please see the requirements.txt and pip_requirements.txt file.
 Install
 ======
 
-This package uses setuptools. You can install it running:
-
-    python setup.py install
-
-If you have problems during this installation. First you may need to install the dependencies:
+First you may need to install the dependencies:
 
     pip install -r requirements.txt
 
-If you already have the dependencies listed in requirements.txt installed,
-to install in your home directory, use::
-
-    python setup.py install --user
-
-To install for all users on Unix/Linux::
-
-    python setup.py build
-    sudo python setup.py install
-
-You can also install it in development mode with::
-
-    python setup.py develop
-
 For Wikipedia2Vec evaluation
 ========
-First, you need to have a glove-format wikipedia2vec model file to be evaluated. 
-You convert the model file using Wikipedia2vec's save_text method or word-embeddings-benchmarks/scripts/convert_wiki2vec_glove.py.
+
+| First, you need to have a glove-format wikipedia2vec model file to be evaluated. 
+| You convert the model file using Wikipedia2vec's save_text method or word-embeddings-benchmarks/scripts/convert_wiki2vec_glove.py.
 
 Convert your wikipedia2vec model file with convert_wiki2vec_glove.py::
 

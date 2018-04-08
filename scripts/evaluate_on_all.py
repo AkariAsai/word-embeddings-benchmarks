@@ -22,7 +22,7 @@ from web.embeddings import fetch_GloVe, load_embedding
 from web.datasets.utils import _get_dataset_dir
 
 from web.evaluate import evaluate_on_all
-
+import time
 
 # Configure logging
 logging.basicConfig(format='%(asctime)s %(levelname)s:%(message)s', level=logging.DEBUG, datefmt='%I:%M:%S')
@@ -44,6 +44,10 @@ parser.add_option("-o", "--output", dest="output",
 parser.add_option("-c", "--clean_words", dest="clean_words",
                   help="Clean_words argument passed to load_embedding function. If set to True will remove"
                        "most of the non-alphanumeric characters, which should speed up evaluation.",
+                  default=False)
+
+parser.add_option("-e", "--entity", dest="entity",
+                  help="Evalaute on Entity benchmark(KORE) if this option is set to True",
                   default=False)
 
 if __name__ == "__main__":
@@ -75,13 +79,20 @@ if __name__ == "__main__":
             load_kwargs['vocab_size'] = sum(1 for line in open(fname))
             load_kwargs['dim'] = len(next(open(fname)).split()) - 1
 
+        print ("loading embedding...")
+        start = time.time()
         w = load_embedding(fname, format=format, normalize=True, lower=True, clean_words=options.clean_words,
                            load_kwargs=load_kwargs)
+        elapsed_time = time.time() - start
+        print ("elapsed_time:{0}".format(elapsed_time) + "[sec]")
 
     out_fname = options.output if options.output else "results.csv"
 
-    results = evaluate_on_all(w)
+    print ("Evaluating on embedding...")
+    start = time.time()
+    results = evaluate_on_all(w, options.entity)
+    elapsed_time = time.time() - start
+    print ("elapsed_time:{0}".format(elapsed_time) + "[sec]")
 
     logger.info("Saving results...")
-    print(results)
     results.to_csv(out_fname)

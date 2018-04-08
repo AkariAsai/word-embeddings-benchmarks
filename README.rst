@@ -76,6 +76,17 @@ You can also install it in development mode with::
 
     python setup.py develop
 
+For Wikipedia2Vec evaluation
+========
+* First, you need to have a glove-format wikipedia2vec model file to be evaluated. 
+You convert the model file using Wikipedia2vec's save_text method or word-embeddings-benchmarks/scripts/convert_wiki2vec_glove.py.
+
+You can convert your model file with convert_wiki2vec_glove.py::
+
+    python scripts/convert_wiki2vec_glove.py [path to model file] [output file name]
+
+* The comparison between glove 100d and wikipedia2vec 100d: https://docs.google.com/spreadsheets/d/1-JQGkN8v5_xwqXeGpXu0CkdDlrSESENkV_oN7Xm_90Q/edit?usp=sharing
+
 
 Examples
 ========

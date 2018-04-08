@@ -80,6 +80,7 @@ When you would like to run the named entity benchmark (Kore)::
 
     python scripts/evaluate_on_all.py --format glove --file [path to model file] --entity True
 
+The result is saved results.csv as default, and you can change the output file name by passing --output option.
 
 Examples
 ========

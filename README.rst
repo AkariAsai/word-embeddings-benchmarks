@@ -54,32 +54,65 @@ Please see the requirements.txt and pip_requirements.txt file.
 Install
 ======
 
-This package uses setuptools. You can install it running:
-
-    python setup.py install
-
-If you have problems during this installation. First you may need to install the dependencies:
+First you may need to install the dependencies:
 
     pip install -r requirements.txt
 
-If you already have the dependencies listed in requirements.txt installed,
-to install in your home directory, use::
+For Wikipedia2Vec evaluation
+========
 
-    python setup.py install --user
+| First, you need to have a glove-format wikipedia2vec model file to be evaluated. 
+| You convert the model file using Wikipedia2vec's save_text method or word-embeddings-benchmarks/scripts/convert_wiki2vec_glove.py.
 
-To install for all users on Unix/Linux::
+Convert your wikipedia2vec model file with convert_wiki2vec_glove.py::
 
-    python setup.py build
-    sudo python setup.py install
+    python scripts/convert_wiki2vec_glove.py [path to model file] [output file name]
+   
+Then evaluate your model by running scripts/evaluate_on_all.py::
+    
+    python scripts/evaluate_on_all.py --format glove --file [path to model file]
+    
+The model fils is assumed to be saved below $HOME/web_data. For example, if you have the model named wiki2vec_en_glove.txt,
+the file should be in the directory $HOME/web_data/wiki2vec_en_glove.txt. 
 
-You can also install it in development mode with::
 
-    python setup.py develop
+When you would like to run the named entity benchmark (Kore)::
+
+    python scripts/evaluate_on_all.py --format glove --file [path to model file] --entity True
+
+The result is saved results.csv as default, and you can change the output file name by passing --output option.
+
+Multilingual Word Embedding Evaluation
+========
+`Learning Word Vectors for 157 Languages (In proceedings of LREC 2018) <https://arxiv.org/pdf/1802.06893.pdf>`_
+trained word vectors for 135 languages using Wikipedia and Common Crawl, and evaluate 10 major languages: 
+Czech, German, Spanish, Finnish, French, Hindi, Italian, Polish, Portuguese and Chinese.
+
+The original baseline results.
+
+.. csv-table:: Performance of the various word vectors on word analogy tasks.
+   :header: language, Cs, De, Es, Fi, Fr, Hi, It, Pl, Pt, Zh
+   :widths: 10, 10, 10, 10,10, 10,10, 10,10, 10, 10
+
+   "Accuracy[%]", 63.1, 61.0, 57.4, 35.9, 64.2, 10.6, 56.3, 53.4, 54.0, 62.0
 
 
+The benchworks used for evaluation are below:
+
+* Finish: `Finnish resources for evaluating language model semantics <https://github.com/venekoski/FinSemEvl>`_
+* Czech: `New word analogy corpus for exploring embeddings of Czech words <https://github.com/Svobikl/cz_corpus>`_
+
+* German: `Multilingual Reliability and “Semantic” Structure of Continuous Word Spaces <http://www.ims.uni-stuttgart.de/forschung/ressourcen/lexika/analogies_ims/analogies.en.html> `_
+* Spannish: `Spanish Billion Words Corpus and Embeddings, <http://crscardellino.me/SBWCE/>`_
+* Spanish: `Word Embeddings Go to Italy: a Comparison of Models and Training Datasets <https://pdfs.semanticscholar.org/c38a/66bd7f71855e2e002331b55578c4c3606734.pdf>`_
+* Portugese: `Portuguese Word Embeddings: Evaluating on Word Analogies and Natural Language Tasks <https://github.com/nathanshartmann/portuguese_word_embeddings>`_
+* Chinese: `Joint Learning of Character and Word Embeddings <https://github.com/Leonard-Xu/CWE>`_
+
+ 
 Examples
 ========
 See `examples` folder.
+The comparison between glove 100d and wikipedia2vec 100d: https://docs.google.com/spreadsheets/d/1-JQGkN8v5_xwqXeGpXu0CkdDlrSESENkV_oN7Xm_90Q/edit?usp=sharing
 
 License
 =======

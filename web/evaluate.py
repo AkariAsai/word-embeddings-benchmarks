@@ -356,7 +356,7 @@ def evaluate_similarity(w, X, y):
     return scipy.stats.spearmanr(scores, y).correlation
 
 
-def evaluate_on_all(w, entity_benchmark=False):
+def evaluate_on_all(w, entity_benchmark=False, fastText_ML=False):
     """
     Evaluate Embedding on all fast-running benchmarks
 
@@ -395,11 +395,27 @@ def evaluate_on_all(w, entity_benchmark=False):
             name, similarity_results[name]))
 
     # Calculate results on analogy
-    logger.info("Calculating analogy benchmarks")
-    analogy_tasks = {
-        "Google": fetch_google_analogy(),
-        "MSR": fetch_msr_analogy()
-    }
+    if fastText_ML:
+        logger.info(
+            "Calculating analogy benchmarks with multilingual analogy tasks")
+        analogy_tasks = {
+            "Google": fetch_google_analogy(),
+            "MSR": fetch_msr_analogy(),
+            "Fi": fetch_finish_analogy(),
+            "Cs": fetch_czech_analogy(),
+            "Zh": fetch_chinese_analogy(),
+            "De": fetch_german_analogy(),
+            "Es": fetch_spanish_analogy(),
+            "Fr": fetch_french_analogy(),
+            "Pt": fetch_ortuguese_analogy()
+        }
+
+    else:
+        logger.info("Calculating analogy benchmarks")
+        analogy_tasks = {
+            "Google": fetch_google_analogy(),
+            "MSR": fetch_msr_analogy()
+        }
 
     analogy_results = {}
 
@@ -442,7 +458,7 @@ def evaluate_on_all(w, entity_benchmark=False):
     results = cat.join(sim).join(analogy)
 
     # Add Kore Evaluation result if entity_benchmark is True.
-    if entity_benchmark==True:
+    if entity_benchmark == True:
         kore_results = evaluate_on_Kore(w)
         kore = pd.DataFrame([kore_results])
         results = results.join(kore)

@@ -25,7 +25,8 @@ from web.evaluate import evaluate_on_all
 import time
 
 # Configure logging
-logging.basicConfig(format='%(asctime)s %(levelname)s:%(message)s', level=logging.DEBUG, datefmt='%I:%M:%S')
+logging.basicConfig(format='%(asctime)s %(levelname)s:%(message)s',
+                    level=logging.DEBUG, datefmt='%I:%M:%S')
 logger = logging.getLogger(__name__)
 
 parser = OptionParser()
@@ -50,6 +51,11 @@ parser.add_option("-e", "--entity", dest="entity",
                   help="Evalaute on Entity benchmark(KORE) if this option is set to True",
                   default=False)
 
+
+parser.add_option("-ml", "--fastText_ML", dest="fastText_ML",
+                  help="Evalaute on analogy benchmarks in 7 different languages if this option is set to True",
+                  default=False)
+
 if __name__ == "__main__":
     (options, args) = parser.parse_args()
 
@@ -72,7 +78,8 @@ if __name__ == "__main__":
             elif ext == ".pkl":
                 format = "dict"
 
-        assert format in ['word2vec_bin', 'word2vec', 'glove', 'bin'], "Unrecognized format"
+        assert format in ['word2vec_bin', 'word2vec',
+                          'glove', 'bin'], "Unrecognized format"
 
         load_kwargs = {}
         if format == "glove":
@@ -90,7 +97,7 @@ if __name__ == "__main__":
 
     print ("Evaluating on embedding...")
     start = time.time()
-    results = evaluate_on_all(w, options.entity)
+    results = evaluate_on_all(w, options.entity, options.fastText_ML)
     elapsed_time = time.time() - start
     print ("elapsed_time:{0}".format(elapsed_time) + "[sec]")
 

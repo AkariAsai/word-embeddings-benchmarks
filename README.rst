@@ -85,7 +85,17 @@ The result is saved results.csv as default, and you can change the output file n
 Multilingual Word Embedding Evaluation
 ========
 `Learning Word Vectors for 157 Languages (In proceedings of LREC 2018) <https://arxiv.org/pdf/1802.06893.pdf>`_
-trained word vectors for 135 languages using Wikipedia and Common Crawl, and evaluate 10 major languages with different word analogy dataset. 
+trained word vectors for 135 languages using Wikipedia and Common Crawl, and evaluate 10 major languages: 
+Czech, German, Spanish, Finnish, French, Hindi, Italian, Polish, Portuguese and Chinese.
+
+The original baseline results.
+
+.. csv-table:: Performance of the various word vectors on word analogy tasks.
+   :header: language, Cs, De, Es, Fi, Fr, Hi, It, Pl, Pt, Zh
+   :widths: 10, 10, 10, 10,10, 10,10, 10,10, 10, 10
+
+   "Accuracy[%]", 63.1, 61.0, 57.4, 35.9, 64.2, 10.6, 56.3, 53.4, 54.0, 62.0
+
 
 The benchworks used for evaluation are below:
 

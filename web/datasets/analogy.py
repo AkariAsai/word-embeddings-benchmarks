@@ -385,16 +385,84 @@ def fetch_finish_analogy(which="all", score="golden"):
         with open(_fetch_file(url, "analogy/Fin", verbose=0), "r") as f:
             L = f.read().splitlines()
 
-        # Typical 4 words analogy questions
-        questions = []
-        answers = []
-        category = []
-        for l in L:
-            words = standardize_string(l).split()
-            questions.append(words[0:3])
-            answers.append(words[4])
-            category.append(words[3])
+            # Typical 4 words analogy questions
+            questions = []
+            answers = []
+            categories = []
+            for l in L:
+                words = standardize_string(l).split()
+                questions.append(words[0:3])
+                answers.append(words[3])
+                categories.append(category)
 
     return Bunch(X=np.vstack(questions).astype("object"),
                  y=np.hstack(answers).astype("object"),
-                 category=np.hstack(category).astype("object"))
+                 category=np.hstack(categories).astype("object"))
+
+
+def fetch_portuguese_analogy(score="golden"):
+    # TODO: Check if which tests are used for Portuguese evaluation.
+    """
+    Fetch dataset used for Portuguese analogy task.
+
+    Returns
+    -------
+    data : sklearn.datasets.base.Bunch
+        dictionary-like object. Keys of interest:
+        'X': a matrix of tuple of words for analogy tasks [[A_0, B_0, C_0],[A_1, B_1, C_1],...].
+        'y': a vector of answers of analogy tasks.
+    """
+
+    url = "https://raw.githubusercontent.com/nathanshartmann/portuguese_word_embeddings/master/analogies/testset/LX-4WAnalogies.txt"
+    category = "capital-country"
+    with open(_fetch_file(url, "analogy/Pr", verbose=0), "r") as f:
+        L = f.read().splitlines()
+
+        # Typical 4 words analogy questions
+        questions = []
+        answers = []
+        categories = []
+        # Omit the header
+        for l in L[1:]:
+            words = standardize_string(l).split()
+            questions.append(words[0:3])
+            answers.append(words[3])
+            categories.append(category)
+
+    return Bunch(X=np.vstack(questions).astype("object"),
+                 y=np.hstack(answers).astype("object"),
+                 category=np.hstack(categories).astype("object"))
+
+
+def fetch_spanish_analogy(score="golden"):
+    """
+    Fetch dataset used for Spanish analogy task.
+
+    Returns
+    -------
+    data : sklearn.datasets.base.Bunch
+        dictionary-like object. Keys of interest:
+        'X': a matrix of tuple of words for analogy tasks [[A_0, B_0, C_0],[A_1, B_1, C_1],...].
+        'y': a vector of answers of analogy tasks.
+    """
+
+    url = "https://cs.famaf.unc.edu.ar/~ccardellino/SBWCE/questions-words_sp.txt"
+    category = "capital-country"
+
+    with open(_fetch_file(url, "analogy/Es", verbose=0), "r") as f:
+        L = f.read().splitlines()
+
+        # Typical 4 words analogy questions
+        questions = []
+        answers = []
+        categories = []
+        # Omit the header
+        for l in L[1:]:
+            words = standardize_string(l).split()
+            questions.append(words[0:3])
+            answers.append(words[4])
+            categories.append(category)
+
+    return Bunch(X=np.vstack(questions).astype("object"),
+                 y=np.hstack(answers).astype("object"),
+                 category=np.hstack(categories).astype("object"))

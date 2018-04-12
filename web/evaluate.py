@@ -395,10 +395,11 @@ def evaluate_on_all(w, entity_benchmark=False, fastText_ML=False):
             name, similarity_results[name]))
 
     # Calculate results on analogy
-    if fastText_ML:
+    if fastText_ML == True:
         logger.info(
             "Calculating analogy benchmarks with multilingual analogy tasks")
         analogy_tasks = {
+            # TODO: Add Cs, Zh, De.
             "Google": fetch_google_analogy(),
             "MSR": fetch_msr_analogy(),
             "Fi": fetch_finish_analogy(),
@@ -406,8 +407,7 @@ def evaluate_on_all(w, entity_benchmark=False, fastText_ML=False):
             "Zh": fetch_chinese_analogy(),
             "De": fetch_german_analogy(),
             "Es": fetch_spanish_analogy(),
-            "Fr": fetch_french_analogy(),
-            "Pt": fetch_ortuguese_analogy()
+            "Pt": fetch_portuguese_analogy()
         }
 
     else:

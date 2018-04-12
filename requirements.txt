@@ -9,3 +9,4 @@ seaborn>=0.6.0
 futures
 tqdm
 docopt
+wikipedia2vec

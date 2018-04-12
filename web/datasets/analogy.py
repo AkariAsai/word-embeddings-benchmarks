@@ -47,10 +47,12 @@ def fetch_wordrep(subsample=None, rng=None):
                        move="EN-WORDREP/EN-WORDREP.zip",
                        verbose=0)
 
-    wikipedia_dict = glob.glob(os.path.join(path, "Pairs_from_Wikipedia_and_Dictionary/*.txt"))
+    wikipedia_dict = glob.glob(os.path.join(
+        path, "Pairs_from_Wikipedia_and_Dictionary/*.txt"))
     wordnet = glob.glob(os.path.join(path, "Pairs_from_WordNet/*.txt"))
 
-    # This dataset is too big to calculate and store all word analogy quadruples
+    # This dataset is too big to calculate and store all word analogy
+    # quadruples
     word_pairs = []
     category = []
     category_high_level = []
@@ -59,47 +61,49 @@ def fetch_wordrep(subsample=None, rng=None):
 
     for file_name in files:
         c = os.path.basename(file_name).split(".")[0]
-        c = c[c.index("-")+1:]
+        c = c[c.index("-") + 1:]
         with open(file_name, "r") as f:
             for l in f.read().splitlines():
                 word_pairs.append(standardize_string(l).split())
                 category.append(c)
-                category_high_level.append("wikipedia-dict" if file_name in wikipedia_dict else "wordnet")
+                category_high_level.append(
+                    "wikipedia-dict" if file_name in wikipedia_dict else "wordnet")
 
     if subsample:
         assert 0 <= subsample <= 1.0
         rng = check_random_state(rng)
-        ids = rng.choice(range(len(word_pairs)), int(subsample * len(word_pairs)), replace=False)
+        ids = rng.choice(range(len(word_pairs)), int(
+            subsample * len(word_pairs)), replace=False)
         word_pairs = [word_pairs[i] for i in ids]
         category = [category[i] for i in ids]
         category_high_level = [category_high_level[i] for i in ids]
 
     wordnet_categories = {'Antonym',
-     'Attribute',
-     'Causes',
-     'DerivedFrom',
-     'Entails',
-     'HasContext',
-     'InstanceOf',
-     'IsA',
-     'MadeOf',
-     'MemberOf',
-     'PartOf',
-     'RelatedTo',
-     'SimilarTo'}
+                          'Attribute',
+                          'Causes',
+                          'DerivedFrom',
+                          'Entails',
+                          'HasContext',
+                          'InstanceOf',
+                          'IsA',
+                          'MadeOf',
+                          'MemberOf',
+                          'PartOf',
+                          'RelatedTo',
+                          'SimilarTo'}
 
     wikipedia_categories = {'adjective-to-adverb',
-     'all-capital-cities',
-     'city-in-state',
-     'comparative',
-     'currency',
-     'man-woman',
-     'nationality-adjective',
-     'past-tense',
-     'plural-nouns',
-     'plural-verbs',
-     'present-participle',
-     'superlative'}
+                            'all-capital-cities',
+                            'city-in-state',
+                            'comparative',
+                            'currency',
+                            'man-woman',
+                            'nationality-adjective',
+                            'past-tense',
+                            'plural-nouns',
+                            'plural-verbs',
+                            'present-participle',
+                            'superlative'}
 
     return Bunch(category_high_level=np.array(category_high_level),
                  X=np.array(word_pairs),
@@ -143,31 +147,30 @@ def fetch_google_analogy():
     cat = None
     for l in L:
         if l.startswith(":"):
-            cat =l.lower().split()[1]
+            cat = l.lower().split()[1]
         else:
-            words =  standardize_string(l).split()
+            words = standardize_string(l).split()
             questions.append(words[0:3])
             answers.append(words[3])
             category.append(cat)
 
     assert set(category) == set(['gram3-comparative', 'gram8-plural', 'capital-common-countries',
-                                         'city-in-state', 'family', 'gram9-plural-verbs', 'gram2-opposite',
-                                         'currency', 'gram4-superlative', 'gram6-nationality-adjective',
-                                         'gram7-past-tense',
-                                         'gram5-present-participle', 'capital-world', 'gram1-adjective-to-adverb'])
-
+                                 'city-in-state', 'family', 'gram9-plural-verbs', 'gram2-opposite',
+                                 'currency', 'gram4-superlative', 'gram6-nationality-adjective',
+                                 'gram7-past-tense',
+                                 'gram5-present-participle', 'capital-world', 'gram1-adjective-to-adverb'])
 
     syntactic = set([c for c in set(category) if c.startswith("gram")])
     category_high_level = []
     for cat in category:
-         category_high_level.append("syntactic" if cat in syntactic else "semantic")
+        category_high_level.append(
+            "syntactic" if cat in syntactic else "semantic")
 
     # dtype=object for memory efficiency
     return Bunch(X=np.vstack(questions).astype("object"),
                  y=np.hstack(answers).astype("object"),
                  category=np.hstack(category).astype("object"),
                  category_high_level=np.hstack(category_high_level).astype("object"))
-
 
 
 def fetch_msr_analogy():
@@ -214,16 +217,16 @@ def fetch_msr_analogy():
     noun = set([c for c in set(category) if c.startswith("NN")])
     category_high_level = []
     for cat in category:
-         if cat in verb:
-             category_high_level.append("verb")
-         elif cat in noun:
-             category_high_level.append("noun")
-         else:
-             category_high_level.append("adjective")
+        if cat in verb:
+            category_high_level.append("verb")
+        elif cat in noun:
+            category_high_level.append("noun")
+        else:
+            category_high_level.append("adjective")
 
     assert set([c.upper() for c in category]) == set(['VBD_VBZ', 'VB_VBD', 'VBZ_VBD',
-                                         'VBZ_VB', 'NNPOS_NN', 'JJR_JJS', 'JJS_JJR', 'NNS_NN', 'JJR_JJ',
-                                         'NN_NNS', 'VB_VBZ', 'VBD_VB', 'JJS_JJ', 'NN_NNPOS', 'JJ_JJS', 'JJ_JJR'])
+                                                      'VBZ_VB', 'NNPOS_NN', 'JJR_JJS', 'JJS_JJR', 'NNS_NN', 'JJR_JJ',
+                                                      'NN_NNS', 'VB_VBZ', 'VBD_VB', 'JJS_JJ', 'NN_NNPOS', 'JJ_JJS', 'JJ_JJR'])
 
     return Bunch(X=np.vstack(questions).astype("object"),
                  y=np.hstack(answers).astype("object"),
@@ -282,9 +285,9 @@ def fetch_semeval_2012_2(which="all", which_scoring="golden"):
                        verbose=0)
 
     train_files = set(glob.glob(os.path.join(path, "train*.txt"))) - \
-                  set(glob.glob(os.path.join(path, "train*_meta.txt")))
+        set(glob.glob(os.path.join(path, "train*_meta.txt")))
     test_files = set(glob.glob(os.path.join(path, "test*.txt"))) - \
-                 set(glob.glob(os.path.join(path, "test*_meta.txt")))
+        set(glob.glob(os.path.join(path, "test*_meta.txt")))
 
     if which == "train":
         files = train_files
@@ -318,7 +321,7 @@ def fetch_semeval_2012_2(which="all", which_scoring="golden"):
         categories_names[c] = meta[2] + "_" + meta[3]
         categories_descriptions[c] = meta[4]
 
-        prototypes[c] = [l.split(":") for l in \
+        prototypes[c] = [l.split(":") for l in
                          platinium[0].replace(": ", ":").replace(" ", ",").replace(".", "").split(",")]
         golden_scores[c] = {}
         platinium_scores[c] = {}
@@ -326,7 +329,8 @@ def fetch_semeval_2012_2(which="all", which_scoring="golden"):
         for line_pl in platinium[1:]:
             word_pair, score = line_pl.split()
             questions_raw.append(word_pair)
-            questions[c].append([standardize_string(w) for w in word_pair.split(":")])
+            questions[c].append([standardize_string(w)
+                                 for w in word_pair.split(":")])
             platinium_scores[c][word_pair] = score
 
         for line_g in golden[1:]:
@@ -344,3 +348,53 @@ def fetch_semeval_2012_2(which="all", which_scoring="golden"):
                  categories_descriptions=categories_descriptions)
 
 
+def fetch_finish_analogy(which="all", score="golden"):
+    """
+    Fetch dataset used for FinSemEvl analogy task.
+
+    Parameters
+    -------
+    which : "all", or "adjectives", "capital-country", "cardinal-ordinal_numbers",
+    "country-currency", "female-male", "hockeyTeam-city", "orthogonal_directions"
+    which_scoring: "golden"
+
+    Returns
+    -------
+    data : sklearn.datasets.base.Bunch
+        dictionary-like object. Keys of interest:
+        'categories_names': dictionary keyed on category. Each entry is a human readable name of
+        category.
+        'X': a matrix of tuple of words for analogy tasks [[A_0, B_0, C_0],[A_1, B_1, C_1],...].
+        'y': a vector of answers of analogy tasks.
+    """
+
+    categories = ["adjectives", "capital-country", "cardinal-ordinal_numbers",
+                  "country-currency", "female-male", "hockeyTeam-city",
+                  "orthogonal_directions"]
+    if which == "all":
+        selected_categories = categories
+    else:
+        selected_categories = [which]
+
+    url_prefix = "https://raw.githubusercontent.com/venekoski/FinSemEvl/master/FinSemEvl/analogy/ANA_"
+    #  +antonymic_adjectives.txt"
+
+    for category in categories:
+        url = url_prefix + category + ".txt"
+
+        with open(_fetch_file(url, "analogy/Fin", verbose=0), "r") as f:
+            L = f.read().splitlines()
+
+        # Typical 4 words analogy questions
+        questions = []
+        answers = []
+        category = []
+        for l in L:
+            words = standardize_string(l).split()
+            questions.append(words[0:3])
+            answers.append(words[4])
+            category.append(words[3])
+
+    return Bunch(X=np.vstack(questions).astype("object"),
+                 y=np.hstack(answers).astype("object"),
+                 category=np.hstack(category).astype("object"))

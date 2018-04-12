@@ -16,6 +16,7 @@ from .datasets.analogy import *
 from .utils import batched
 from web.embedding import Embedding
 
+
 class SimpleAnalogySolver(sklearn.base.BaseEstimator):
     """
     Answer analogy questions
@@ -92,7 +93,8 @@ class SimpleAnalogySolver(sklearn.base.BaseEstimator):
                 if query_word not in word_id:
                     missing_words += 1
         if missing_words > 0:
-            logger.warning("Missing {} words. Will replace them with mean vector".format(missing_words))
+            logger.warning(
+                "Missing {} words. Will replace them with mean vector".format(missing_words))
 
         # Batch due to memory constaints (in dot operation)
         for id_batch, batch in enumerate(batched(range(len(X)), self.batch_size)):
@@ -103,8 +105,8 @@ class SimpleAnalogySolver(sklearn.base.BaseEstimator):
                                                             int(np.ceil(X.shape[0] / float(self.batch_size)))))
 
             A, B, C = np.vstack(w.get(word, mean_vector) for word in X_b[:, 0]), \
-                      np.vstack(w.get(word, mean_vector) for word in X_b[:, 1]), \
-                      np.vstack(w.get(word, mean_vector) for word in X_b[:, 2])
+                np.vstack(w.get(word, mean_vector) for word in X_b[:, 1]), \
+                np.vstack(w.get(word, mean_vector) for word in X_b[:, 2])
 
             if self.method == "add":
                 D = np.dot(w.vectors, (B - A + C).T)

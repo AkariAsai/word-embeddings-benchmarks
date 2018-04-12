@@ -103,8 +103,8 @@ The benchworks used for evaluation are below:
 * Czech: `New word analogy corpus for exploring embeddings of Czech words <https://github.com/Svobikl/cz_corpus>`_
 
 * German: `Multilingual Reliability and “Semantic” Structure of Continuous Word Spaces <http://www.ims.uni-stuttgart.de/forschung/ressourcen/lexika/analogies_ims/analogies.en.html> `_
-* Spannish: `Spanish Billion Words Corpus and Embeddings, <http://crscardellino.me/SBWCE/>`_
-* Spanish: `Word Embeddings Go to Italy: a Comparison of Models and Training Datasets <https://pdfs.semanticscholar.org/c38a/66bd7f71855e2e002331b55578c4c3606734.pdf>`_
+* Spanish: `Spanish Billion Words Corpus and Embeddings, <http://crscardellino.me/SBWCE/>`_
+* Italy: `Word Embeddings Go to Italy: a Comparison of Models and Training Datasets <https://pdfs.semanticscholar.org/c38a/66bd7f71855e2e002331b55578c4c3606734.pdf>`_
 * Portugese: `Portuguese Word Embeddings: Evaluating on Word Analogies and Natural Language Tasks <https://github.com/nathanshartmann/portuguese_word_embeddings>`_
 * Chinese: `Joint Learning of Character and Word Embeddings <https://github.com/Leonard-Xu/CWE>`_
 

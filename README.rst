@@ -82,6 +82,23 @@ When you would like to run the named entity benchmark (Kore)::
 
 The result is saved results.csv as default, and you can change the output file name by passing --output option.
 
+Multilingual Word Embedding Evaluation
+========
+`Learning Word Vectors for 157 Languages (In proceedings of LREC 2018) <https://arxiv.org/pdf/1802.06893.pdf>`_
+trained word vectors for 135 languages using Wikipedia and Common Crawl, and evaluate 10 major languages with different word analogy dataset. 
+
+The benchworks used for evaluation are below:
+
+* Finish: `Finnish resources for evaluating language model semantics <https://github.com/venekoski/FinSemEvl>`_
+* Czech: `New word analogy corpus for exploring embeddings of Czech words <https://github.com/Svobikl/cz_corpus>`_
+
+* German: `Multilingual Reliability and “Semantic” Structure of Continuous Word Spaces <http://www.ims.uni-stuttgart.de/forschung/ressourcen/lexika/analogies_ims/analogies.en.html> `_
+* Spannish: `Spanish Billion Words Corpus and Embeddings, <http://crscardellino.me/SBWCE/>`_
+* Spanish: `Word Embeddings Go to Italy: a Comparison of Models and Training Datasets <https://pdfs.semanticscholar.org/c38a/66bd7f71855e2e002331b55578c4c3606734.pdf>`_
+* Portugese: `Portuguese Word Embeddings: Evaluating on Word Analogies and Natural Language Tasks <https://github.com/nathanshartmann/portuguese_word_embeddings>`_
+* Chinese: `Joint Learning of Character and Word Embeddings <https://github.com/Leonard-Xu/CWE>`_
+
+ 
 Examples
 ========
 See `examples` folder.
